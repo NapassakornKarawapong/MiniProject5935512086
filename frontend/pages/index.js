@@ -5,7 +5,8 @@ import axios from "axios";
 import React, { } from "react";
 import styles from "../styles/Home.module.css";
 import Menubar from "../components/menubar";
-const URL = "http://localhost/api/students";
+import Link from 'next/link';
+const URL = "http://localhost/api/series";
 const URL_SEL = "http://localhost/api/purchase";
 const fetcher = (key) => fetch(key).then((res) => res.json());
 const index = () => {
@@ -19,23 +20,25 @@ const index = () => {
     mutate(URL, data);
   }
 
-  const showStudents = () => {
+  const showSeries = () => {
     if (data.list && data.list.length) {
       return data.list.map((item, index) => {
         return (
           <div className={styles.listItem} key={index}>
             <div><b>Name:</b> {item.name}</div>
-            <div><b>Surname:</b> {item.surname}</div>
-             <div> <b>Major:</b> {item.major} </div>
-            <div><b>GPA:</b> {item.GPA}</div>
+            <div><b>Channel:</b> {item.channel}</div>
+             <div> <b>Day:</b> {item.day} </div>
+            <div><b>Time:</b> {item.time}</div>
             
             <div>
-            <button
-              className={styles.btn}
-              onClick={() => selStu(item.id)}
-            >
-              Select
-            </button></div>
+              <Link href="/register">
+                <a>
+                  <button className={styles.btn} onClick={() => selStu(item.id)}>
+                    Select
+                  </button>
+                </a>
+              </Link>
+            </div>
           </div>
         );
       });
@@ -48,23 +51,22 @@ const index = () => {
        <Head>
         <title>Home Page</title>
     </Head>
+    
     <div className={styles.bar}>
-      <div className={styles.logo}><h2>Y</h2></div>
+      <div className={styles.logo}><h2>YSeries</h2></div>
       <div className={styles.bar2}>
         <Menubar />
       </div>
     </div>
 
     <div className={styles.container}>
+      <div className={styles.title}></div>
       
-      
-      <div className={styles.title}>
-      </div>
-
-      <div className={styles.list}>
-        {showStudents()}
-      </div>
-      
+      <div className={styles.list2}>
+        <div className={styles.list3}>
+          {showSeries()}
+        </div>
+      </div>  
     </div>
     </Layout>
   );

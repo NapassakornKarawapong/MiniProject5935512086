@@ -5,6 +5,7 @@ import styles from '../styles/Home.module.css'
 import Menubar from '../components/menubar'
 import axios from 'axios'
 import config from '../config/config'
+import Link from 'next/link'
 
 export default function Register({ token }) {
 
@@ -99,8 +100,11 @@ export default function Register({ token }) {
                 </div>
 
                 <div>
-                    <button className={styles.btn}
-                    onClick={register}>Register</button>
+                    <Link href="/login">
+                        <a>
+                            <button className={styles.btn} onClick={register}>Register</button>
+                        </a>
+                    </Link>
                 </div>
             </div>
         </Layout>

@@ -1,19 +1,19 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-import styles from "../styles/student.module.css";
+import styles from "../styles/series.module.css";
 import withAuth from "../components/withAuth";
 import Navbar from "../components/navbar";
-const URL = "http://localhost/api/students";
+const URL = "http://localhost/api/series";
 const admin = ({ token }) => {
   const [user, setUser] = useState({});
-  const [students, setStudents] = useState({});
+  const [series, setSeries] = useState({});
   const [name, setName] = useState("");
-  const [surname, setSurname] = useState("");
-  const [major, setMajor] = useState("");
-  const [GPA, setGPA] = useState(0);
-  const [student, setStudent] = useState({});
+  const [channel, setChannel] = useState("");
+  const [day, setDay] = useState("");
+  const [time, setTime] = useState(0);
+  const [serie, setSerie] = useState({});
   useEffect(() => {
-    getStudents();
+    getSeries();
     profileUser();
   }, []);
   const profileUser = async () => {
@@ -29,69 +29,69 @@ const admin = ({ token }) => {
     }
   };
 
-  const getstudent = async (id) => {
+  const getserie = async (id) => {
     const result = await axios.get(`${URL}/${id}`)
-    console.log('student id: ', result.data)
-    setStudent(result.data)
+    console.log('serie id: ', result.data)
+    setSerie(result.data)
 }
  
-  const getStudents = async () => {
+  const getSeries = async () => {
     let result = await axios.get(URL);
-    setStudents(result.data.list);
+    setSeries(result.data.list);
   };
 
-  const addStudent = async () => {
+  const addSerie = async () => {
     let result = await axios.post(URL, {
       name,
-      surname,
-      major,
-      GPA,
+      channel,
+      day,
+      time,
     });
     console.log(result);
-    getStudents();
+    getSeries();
   };
 
-  const deleteStudent = async (id) => {
+  const deleteSerie = async (id) => {
     let result = await axios.delete(`${URL}/${id}`);
-    getStudents();
+    getSeries();
   };
 
-  const updateStudent = async (id) => {
+  const updateSerie = async (id) => {
     let result = await axios.put(`${URL}/${id}`, {
       name,
-      surname,
-      major,
-      GPA,
+      channel,
+      day,
+      time,
     });
     console.log(result);
-    getStudents();
+    getSeries();
   };
 
-  const showStudents = () => {
-    if (students && students.length) {
-      return students.map((item, index) => {
+  const showSeries = () => {
+    if (series && series.length) {
+      return series.map((item, index) => {
         return (
           <div className={styles.listItem} key={index}>
             <b>Name:</b> {item.name} <br />
-            <b>Surname:</b> {item.surname} <br />
-            <b>Major:</b> {item.major} <br />
-            <b>GPA:</b> {item.GPA}
+            <b>Channel:</b> {item.channel} <br />
+            <b>Day:</b> {item.day} <br />
+            <b>Time:</b> {item.time}
             <div className={styles.edit_button}>
               <button
                 className={styles.button_get}
-                onClick={() => getstudent(item.id)}
+                onClick={() => getserie(item.id)}
               >
                 Get
               </button>
               <button
                 className={styles.button_update}
-                onClick={() => updateStudent(item.id)}
+                onClick={() => updateSerie(item.id)}
               >
                 Update
               </button>
               <button
                 className={styles.button_delete}
-                onClick={() => deleteStudent(item.id)}
+                onClick={() => deleteSerie(item.id)}
               >
                 Delete
               </button>
@@ -106,43 +106,41 @@ const admin = ({ token }) => {
   return (
     <div className={styles.container}>
       <Navbar />
-      <h1><ins>Student Data Edit </ins></h1>
+      <h1><ins>Serie Data Edit </ins></h1>
       <div className={styles.form_add}>
-        <h2>Add Students</h2>
+        <h2>Add Series</h2>
         Name:
         <input
           type="text"
           name="name"
           onChange={(e) => setName(e.target.value)}
         ></input>
-        Surname:
+        Channel:
         <input
           type="text"
-          name="surname"
-          onChange={(e) => setSurname(e.target.value)}
+          name="channel"
+          onChange={(e) => setChannel(e.target.value)}
         ></input>
-        Major:
+        Day:
         <input
           type="text"
-          name="major"
-          onChange={(e) => setMajor(e.target.value)}
+          name="day"
+          onChange={(e) => setDay(e.target.value)}
         ></input>
-        GPA:
+        Time:
         <input
           type="number"
-          name="GPA"
-          onChange={(e) => setGPA(e.target.value)}
+          name="time"
+          onChange={(e) => setTime(e.target.value)}
         ></input>
-        <button
-          className={styles.button_add}
-          onClick={() => addStudent(name, surname, major, GPA)}
-        >
+        
+        <button className={styles.button_add} onClick={() => addSerie(name, channel, day, time)}>
           Add
         </button>
       </div>
 
-      <div className={styles.list}>{showStudents()}</div>
-      <div className={styles.list1}><b><i><ins>(selected student)</ins></i></b> <b>  Name:</b>{student.name}<b>  Surname:</b>{student.surname} <b>  Major:</b>{student.major}  <b>GPA:</b>{student.GPA}</div>
+      <div className={styles.list}>{showSeries()}</div>
+      <div className={styles.list1}><b><i><ins>(selected serie)</ins></i></b> <b>  Name:</b>{serie.name}<b>  Channel:</b>{serie.channel} <b>  Day:</b>{serie.day}  <b>Time:</b>{serie.time}</div>
     </div>
   );
 };

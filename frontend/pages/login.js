@@ -5,6 +5,7 @@ import Menubar from "../components/menubar";
 import styles from "../styles/Home.module.css";
 import axios from "axios";
 import config from "../config/config";
+import Link from 'next/link'
 
 export default function Login({ token }) {
   const [username, setUsername] = useState("");
@@ -87,7 +88,11 @@ export default function Login({ token }) {
         <br />
         {loginForm()}
         <div>
-          <button className={styles.btn2} onClick={login}>Login</button>
+          <Link href="/seriesedit">
+            <a>
+              <button className={styles.btn2} onClick={login}>Login</button>
+            </a>
+          </Link>
         </div>
       </div>
     </Layout>

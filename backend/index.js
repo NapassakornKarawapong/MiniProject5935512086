@@ -23,6 +23,8 @@ router.use(express.urlencoded({ extended: false }));
 router.post("/login", (req, res, next) => {
   passport.authenticate("local", { session: false }, (err, user, info) => {
     console.log("Login: ", req.body, user, err, info);
+    let time_exp;
+    let time;
     if (err) return next(err);
     if (user) {
         if (req.body.remember == true) {
@@ -32,7 +34,7 @@ router.post("/login", (req, res, next) => {
           expiresIn: time_exp,
         });
         var decoded = jwt.decode(token);
-        let time = new Date(decoded.exp * 1000);
+        time = new Date(decoded.exp * 1000);
         console.log(new Date(decoded.exp * 1000));
         res.setHeader(
           "Set-Cookie",
@@ -83,6 +85,7 @@ router.get(
 );
 
 router.post("/register", async (req, res) => {
+  let hash;
   try {
     const SALT_ROUND = 10;
     const { username, email, password } = req.body;
@@ -106,59 +109,57 @@ router.get("/", (req, res, next) => {
   res.send("Respond without authentication");
 });
 
-  let students = {
+  let series = {
       list: [
-        { "id": 1, "name": "Harry", "surname": "Potter", "major": "CoE" , "GPA": 3.62 },
-        { "id": 2, "name": "Ron", "surname": "Weasley", "major": "CoE" , "GPA": 3.18 }]
+        { "id": 1, "name": "Y-Destiny", "channel": "AIS Play", "day": "Tuesday" , "time": "22:00" }]
     }
   
-  
   router
-    .route("/students")
+    .route("/series")
     .get((req, res) => {
-      res.send(students);
+      res.send(series);
     })
     .post((req, res) => {
       console.log(req.body);
-      let newstudent = {};
-      newstudent.id = students.list.length ? students.list[students.list.length - 1].id + 1 : 1;
-      newstudent.name = req.body.name;
-      newstudent.surname= req.body.surname;
-      newstudent.major = req.body.major;
-      newstudent.GPA= req.body.GPA;
-      students = { list: [...students.list, newstudent] };
-      res.json(students);
+      let newserie = {};
+      newserie.id = series.list.length ? series.list[series.list.length - 1].id + 1 : 1;
+      newserie.name = req.body.name;
+      newserie.channel= req.body.channel;
+      newserie.day = req.body.day;
+      newserie.time= req.body.time;
+      series = { list: [...series.list, newserie] };
+      res.json(series);
     });
   
   router
-    .route("/students/:studentid")
+    .route("/series/:serieid")
     .get((req, res) => {
-      let id = students.list.findIndex((item) => +item.id == +req.params.studentid)
-      res.json(students.list[id]);
+      let id = series.list.findIndex((item) => +item.id == +req.params.serieid)
+      res.json(series.list[id]);
     })
     .put((req, res) => {
-      let id = students.list.findIndex((item) => item.id == +req.params.studentid);
-      students.list[id].name = req.body.name;
-      students.list[id].surname = req.body.surname;
-      students.list[id].major = req.body.major;
-      students.list[id].GPA = req.body.GPA;
-      res.json(students.list);
+      let id = series.list.findIndex((item) => item.id == +req.params.serieid);
+      series.list[id].name = req.body.name;
+      series.list[id].channel = req.body.channel;
+      series.list[id].day = req.body.day;
+      series.list[id].time = req.body.time;
+      res.json(series.list);
     })
     .delete((req, res) => {
-      students.list = students.list.filter((item) => +item.id !== +req.params.studentid);
-      res.json(students.list);
+      series.list = series.list.filter((item) => +item.id !== +req.params.serieid);
+      res.json(series.list);
     });
   
   
-  router.route("/purchase/:studentId")
+  router.route("/purchase/:serieId")
   .post((req,res) => {
-    let id = students.list.findIndex((item) => +item.id == +req.params.studentId)
+    let id = series.list.findIndex((item) => +item.id == +req.params.serieId)
     if (id == -1) {
-      res.json({message: "Student not found"})
+      res.json({message: "Serie not found"})
     }
     else {
-      students.list = students.list.filter((item) => +item.id !== +req.params.studentId);
-      res.json(students.list);
+      series.list = series.list.filter((item) => +item.id !== +req.params.serieId);
+      res.json(series.list);
     }
   })
 
