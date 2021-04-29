@@ -111,7 +111,10 @@ router.get("/", (req, res, next) => {
 
   let series = {
       list: [
-        { "id": 1, "name": "Y-Destiny", "channel": "AIS Play", "day": "Tuesday" , "time": "22:00" }]
+        { "id": 1, "name": "Y-Destiny", "channel": "AIS Play", "day": "Tuesday" , "time": "22:00" },
+        { "id": 2, "name": "Fish upon the sky", "channel": "GMM25", "day": "Friday" , "time": "20:30" },
+        { "id": 3, "name": "A Chance to Love SS2", "channel": "WeTV", "day": "Wednesday" , "time": "20:00" },
+        { "id": 4, "name": "Lovely Writer The Series", "channel": "Ch33", "day": "Wednesday" , "time": "22:50" }]
     }
   
   router
