@@ -14,7 +14,6 @@ const index = () => {
   if (error) return <div>failed to load</div>;
   if (!data) return <div>Loading...</div>;
   console.log("data", data);
-  
   const selStu = async (id) => {
     let result = await axios.post(`${URL_SEL}/${id}`)
     mutate(URL, data);
@@ -31,7 +30,7 @@ const index = () => {
             <div><b>Time:</b> {item.time}</div>
             
             <div>
-              <Link href="/register">
+              <Link href="/login">
                 <a>
                   <button className={styles.btn} onClick={() => selStu(item.id)}>
                     Select
@@ -51,23 +50,20 @@ const index = () => {
        <Head>
         <title>Home Page</title>
     </Head>
-    
     <div className={styles.bar}>
       <div className={styles.logo}><h2>YSeries</h2></div>
       <div className={styles.bar2}>
         <Menubar />
       </div>
     </div>
-
     <div className={styles.container}>
-      <div className={styles.title}></div>
-      
-      <div className={styles.list2}>
-        <div className={styles.list3}>
-          {showSeries()}
-        </div>
-      </div>  
+      <h2>Wellcom to Y Zone !!</h2>
+      <p>New Y series in 2021</p>
     </div>
+
+    <ul className={styles.container2}>
+      {showSeries()}
+    </ul>
     </Layout>
   );
 };

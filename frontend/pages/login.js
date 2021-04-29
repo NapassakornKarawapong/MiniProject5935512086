@@ -14,12 +14,12 @@ export default function Login({ token }) {
   const [remember, setRemember] = useState(false);
   const login = async (req, res) => {
     try {
-      let result = await axios.post(`${config.URL}/login`,{ username, password, remember },{ withCredentials: true });
+      let result = await axios.post(`${config.URL}/login`, { username, password, remember }, { withCredentials: true });
       console.log("result: ", result);
       console.log("result.data:  ", result.data);
       console.log("token:  ", token);
       setStatus(result.status + ": " + result.data.user.username);
-    } 
+    }
     catch (e) {
       console.log("error: ", JSON.stringify(e.response));
       setStatus(JSON.stringify(e.response).substring(0, 80) + "...");
@@ -56,35 +56,25 @@ export default function Login({ token }) {
           type="checkbox"
           onClick={reMem}
         />
-       
-      </div> 
+      </div>
       <div className={styles.text}><label><ins><b>Remember Me</b></ins></label></div>
     </div>
   );
 
-  const copyText = () => {
-    navigator.clipboard.writeText(token);
-  };
-
+  const copyText = () => {navigator.clipboard.writeText(token);};
   return (
     <Layout>
       <Head>
         <title>Login Page</title>
       </Head>
       <div className={styles.bar}>
-      <div className={styles.logo}><h2>Y</h2></div>
-      <div className={styles.bar2}>
-        <Menubar />
+        <div className={styles.logo}><h2>YSeries</h2></div>
+        <div className={styles.bar2}>
+          <Menubar />
+        </div>
       </div>
-    </div>
       <div className={styles.container}>
         <h1>Login</h1>
-        <div>
-          <b>Token:</b> {token.substring(0, 15)}...
-          <button className={styles.btn1} onClick={copyText}> Copy token </button>
-        </div>
-        <br />
-        <div>Status: {status}</div>
         <br />
         {loginForm()}
         <div>
@@ -98,7 +88,6 @@ export default function Login({ token }) {
     </Layout>
   );
 }
-
 export function getServerSideProps({ req, res }) {
   return { props: { token: req.cookies.token || "" } };
 }

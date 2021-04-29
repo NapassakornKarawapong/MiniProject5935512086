@@ -8,12 +8,10 @@ import config from '../config/config'
 import Link from 'next/link'
 
 export default function Register({ token }) {
-
     const [username, setUsername] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [status, setStatus] = useState('')
-
     const profileUser = async () => {
         console.log('token: ', token)
         const users = await axios.get(`${config.URL}/profile`, {
@@ -67,7 +65,6 @@ export default function Register({ token }) {
                     placeholder="password"
                     onChange={(e) => setPassword(e.target.value)} />
             </div>
-
         </div>
     )
 
@@ -78,20 +75,13 @@ export default function Register({ token }) {
                 <title>Register Page</title>
             </Head>
             <div className={styles.bar}>
-                <div className={styles.logo}><h2>Y</h2></div>
+                <div className={styles.logo}><h2>YSeries</h2></div>
                  <div className={styles.bar2}>
                     <Menubar />
                 </div>
             </div>
             <div className={styles.container}>
                 <h1>Register</h1>
-                <div><b>Token:</b> {token.substring(0, 15)}...
-                <button
-                className={styles.btn1}
-                        onClick={() => { navigator.clipboard.writeText(token) }}>
-                        Copy token
-                </button>
-                </div>
                 <br />
             <b>Status: </b> <i>{status}</i>
                 <br /><br />
@@ -110,7 +100,6 @@ export default function Register({ token }) {
         </Layout>
     )
 }
-
 export function getServerSideProps({ req, res }) {
     return { props: { token: req.cookies.token || "" } };
 }
